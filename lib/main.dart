@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:idam/screens/player_mode_screen.dart';
-import 'screens/home_screen.dart';
+import 'package:idam/screens/home_screen.dart';
+import 'screens/two_player_list.dart';
 
 void main() {
   runApp(const IdamApp());
 }
 
 /// Root widget for Idam — a small hub of local two-player, pass-and-play
-/// games. New games are registered in [availableGames] (home_screen.dart)
+/// games. New games are registered in [availableGames] (two_player_list.dart)
 /// and everything else (details screen, navigation, theming) just works.
 class IdamApp extends StatelessWidget {
   const IdamApp({super.key});
@@ -23,7 +23,7 @@ class IdamApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF000000),
         fontFamily: 'Roboto',
       ),
-      home: const PlayerModeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

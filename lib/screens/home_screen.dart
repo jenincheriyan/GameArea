@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
-import '../models/game_info.dart';
-import '../games/fruit_duel/fruit_duel_game_screen.dart';
-import 'game_details_screen.dart';
-
-/// The single registry of games shown on the home screen. Add a new
-/// [GameInfo] entry here to make a new game appear in the app — nothing
-/// else needs to change.
-final List<GameInfo> availableGames = [
-  GameInfo(
-    id: 'fruit_duel',
-    title: 'Fruit Duel',
-    imagePath: 'assets/images/logo1.png',
-    tagline: 'Cut fast. Dodge bombs. First to 10 wins.',
-    rules: const [
-    ],
-    primaryColor: const Color(0xFFFFFFFF),
-    secondaryColor: const Color(0xFFFF0202),
-    gameScreenBuilder: (context) => const FruitDuelGameScreen(),
-  ),
-];
+import 'package:idam/models/home_mode.dart';
+import '../models/home_mode.dart';
+import '../screens/two_player_list.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final ValueChanged<HomeMode>? onSelected;
+
+  const HomeScreen({super.key, this.onSelected});
+
+  void _handleSelect(BuildContext context, HomeMode mode) {
+    if (onSelected != null) {
+      onSelected!(mode);
+    } else {
+      Navigator.of(context).pop(mode);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +22,7 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF000000), Color(0xFF000000), Color(0xFF000000)],
+            colors: [Color(0xFF0F0C29), Color(0xFF000000), Color(0xFF000000)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -43,29 +36,62 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 const Center(
                   child: Text(
-                  'GAMES',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 4,
+                    'SELECT MODE',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 2,
+                    ),
                   ),
+                ),
+                const SizedBox(height: 6),
+                const Center(
+                  child: Text(
+                  'How many players?',
+                  style: TextStyle(color: Colors.white70, fontSize: 15),
                 ),
                 ),
                 const SizedBox(height: 32),
                 Expanded(
-                  child: GridView.builder(
-                    gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      childAspectRatio: 1.1,
-                    ),
-                    itemCount: availableGames.length,
-                    itemBuilder: (context, index) {
-                      return _GameCard(game: availableGames[index]);
-                    },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: _ModeCard(
+                          label: '1',
+                          description: 'PLAYER',
+                          colors: const [
+                            Color(0xFF5080FF),
+                            Color(0xFF3060FF),
+                          ],
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const TwoPlayerList(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Expanded(
+                        child: _ModeCard(
+                          label: '2',
+                          description: 'PLAYERS',
+                          colors: const [Color(0xFFFF5E5E), Color(0xFFFF4444)],
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const TwoPlayerList(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -77,45 +103,69 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _GameCard extends StatelessWidget {
-  final GameInfo game;
-  const _GameCard({required this.game});
+class _ModeCard extends StatelessWidget {
+  final String label;
+  final String description;
+  final List<Color> colors;
+  final VoidCallback onTap;
+
+  const _ModeCard({
+    required this.label,
+    required this.description,
+    required this.colors,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(24),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: game.gameScreenBuilder),
-          );
-        },
+        borderRadius: BorderRadius.circular(28),
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(28),
             gradient: LinearGradient(
-              colors: [game.primaryColor, game.secondaryColor],
+              colors: colors,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
-                color: game.primaryColor.withOpacity(0.4),
-                blurRadius: 16,
-                offset: const Offset(0, 8),
+                color: colors.first.withOpacity(0.4),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
               ),
             ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(24),
-            child: Image.asset(
-              game.imagePath,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 16),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 100,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                description,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.9),
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.5,
+                ),
+              ),
+            ],
           ),
         ),
       ),

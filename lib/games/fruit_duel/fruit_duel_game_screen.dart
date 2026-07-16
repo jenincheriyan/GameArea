@@ -24,6 +24,9 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersiveSticky,
+    );
     _controller = FruitDuelController()..addListener(_onGameStateChanged);
     _controller.start();
   }
@@ -62,6 +65,9 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
   void dispose() {
     _controller.removeListener(_onGameStateChanged);
     _controller.dispose();
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.edgeToEdge,
+    );
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -89,7 +95,10 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
                     child: PlayerPanel(
                       label: 'PLAYER 1',
                       score: _controller.player1Score,
-                      color: const Color(0xFF1A1A2E),
+                      colors: const [
+                        Color(0xFF5080FF),
+                        Color(0xFF3060FF),
+                      ],
                       onCut: () => _controller.cut(1),
                     ),
                   ),
@@ -105,7 +114,7 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
                     child: PlayerPanel(
                       label: 'PLAYER 2',
                       score: _controller.player2Score,
-                      color: const Color(0xFF1A1A2E),
+                      colors: const [Color(0xFFFF5E5E), Color(0xFFFF4444)],
                       onCut: () => _controller.cut(2),
                       flip: true,
                     ),

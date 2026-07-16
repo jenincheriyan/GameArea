@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'two_player_list.dart';
 
 class WinnerScreen extends StatelessWidget {
   final int winner;
@@ -82,7 +82,7 @@ class WinnerScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (_) => const HomeScreen()),
+                      MaterialPageRoute(builder: (_) => const TwoPlayerList()),
                       (route) => false,
                     );
                   },

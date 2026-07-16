@@ -7,7 +7,7 @@ import 'sword_button.dart';
 class PlayerPanel extends StatelessWidget {
   final String label;
   final int score;
-  final Color color;
+  final List<Color> colors;
   final VoidCallback onCut;
   final bool flip;
 
@@ -15,7 +15,7 @@ class PlayerPanel extends StatelessWidget {
     super.key,
     required this.label,
     required this.score,
-    required this.color,
+    required this.colors,
     required this.onCut,
     this.flip = false,
   });
@@ -50,18 +50,21 @@ class PlayerPanel extends StatelessWidget {
                 fontSize: 52,
                 fontWeight: FontWeight.w900,
                 shadows: [
-                  Shadow(color: color.withOpacity(0.8), blurRadius: 16),
+                  Shadow(
+                    color: colors.first.withOpacity(0.8),
+                    blurRadius: 16,
+                  ),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 20),
-          SwordButton(onCut: onCut, color: color, flip: flip),
+          SwordButton(onCut: onCut, color: colors.first, flip: flip),
           const SizedBox(height: 14),
           ElevatedButton(
             onPressed: onCut,
             style: ElevatedButton.styleFrom(
-              backgroundColor: color,
+              backgroundColor: colors.first,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 10),
               shape: RoundedRectangleBorder(

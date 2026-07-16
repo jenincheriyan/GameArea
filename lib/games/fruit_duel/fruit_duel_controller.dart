@@ -41,7 +41,6 @@ class FruitDuelController extends ChangeNotifier {
   // cut (or the expiry timer, if nobody cuts) sets this to true, and any
   // event after that for the same object is a no-op.
   bool _objectResolved = false;
-
   int _objectCounter = 0;
   Timer? _spawnTimer;
   Timer? _lifetimeTimer;

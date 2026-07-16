@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// To add a new game to the app:
 ///   1. Build its screen(s) under lib/games/<your_game>/.
 ///   2. Create one [GameInfo] describing it.
-///   3. Add that GameInfo to the `availableGames` list in home_screen.dart.
+///   3. Add that GameInfo to the `availableGames` list in two_player_list.dart.
 /// The home screen, details screen, and navigation all pick it up
 /// automatically — no other file needs to change.
 class GameInfo {
