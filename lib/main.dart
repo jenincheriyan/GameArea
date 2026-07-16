@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:idam/screens/home_screen.dart';
+import 'package:idam/screens/splash_screen.dart';
 import 'screens/two_player_list.dart';
-
 void main() {
   runApp(const IdamApp());
 }
@@ -23,7 +22,7 @@ class IdamApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF000000),
         fontFamily: 'Roboto',
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
