@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'two_player_list.dart';
+import '../games/fruit_duel/fruit_duel_game_screen.dart';
 
 class WinnerScreen extends StatelessWidget {
   final int winner;
@@ -63,19 +64,30 @@ class WinnerScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 48),
                 ElevatedButton(
-                  onPressed: onPlayAgain,
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => const FruitDuelGameScreen(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: color,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 16,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
                   child: const Text(
                     'PLAY AGAIN',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
