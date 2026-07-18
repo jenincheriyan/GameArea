@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:idam/models/home_mode.dart';
-import '../models/home_mode.dart';
 import '../screens/two_player_list.dart';
+import '../screens/one_player_list.dart';
 
 class HomeScreen extends StatelessWidget {
   final ValueChanged<HomeMode>? onSelected;
@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const TwoPlayerList(),
+                                builder: (context) => const OnePlayerList(),
                               ),
                             );
                           },

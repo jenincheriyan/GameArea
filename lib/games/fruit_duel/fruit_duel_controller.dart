@@ -99,29 +99,42 @@ class FruitDuelController extends ChangeNotifier {
 
   void _scheduleNextSpawn({Duration? initialDelay}) {
     _spawnTimer?.cancel();
-    final delay = initialDelay ?? Duration(milliseconds: 500 + _random.nextInt(500));
-    _spawnTimer = Timer(delay, _spawnObject);
+
+    _spawnTimer = Timer(
+      initialDelay ?? const Duration(milliseconds: 450),
+      _spawnObject,
+    );
   }
 
   void _spawnObject() {
     if (!_running || winner != null) return;
 
     _objectCounter++;
+
     final isBomb = _random.nextDouble() < _bombChance;
     final kind = isBomb ? ObjectKind.bomb : ObjectKind.fruit;
     final emoji = isBomb
         ? '💣'
         : _fruitEmojis[_random.nextInt(_fruitEmojis.length)];
 
-    currentObject = GameObject(id: _objectCounter, kind: kind, emoji: emoji);
+    currentObject = GameObject(
+      id: _objectCounter,
+      kind: kind,
+      emoji: emoji,
+    );
+
     _objectResolved = false;
     lastResult = RoundResult.none;
     _safeNotify();
 
-    // How long the object stays on screen before it's considered "missed".
-    final lifetime = Duration(milliseconds: 850 + _random.nextInt(550));
+    // Object stays on screen for exactly 900 ms
+    const lifetime = Duration(milliseconds: 900);
+
     _lifetimeTimer?.cancel();
-    _lifetimeTimer = Timer(lifetime, () => _onObjectExpired(_objectCounter));
+    _lifetimeTimer = Timer(
+      lifetime,
+          () => _onObjectExpired(_objectCounter),
+    );
   }
 
   void _onObjectExpired(int objectId) {

@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import '../models/game_info.dart';
-import '../games/fruit_duel/fruit_duel_game_screen.dart';
+import '../games/snake/snake_game_screen.dart';
+
 
 /// The single registry of games shown on the home screen. Add a new
 /// [GameInfo] entry here to make a new game appear in the app — nothing
 /// else needs to change.
 final List<GameInfo> availableGames = [
   GameInfo(
-    id: 'fruit_duel',
-    title: 'Fruit Duel',
-    imagePath: 'assets/images/logo1.png',
-    tagline: 'Cut fast. Dodge bombs. First to 10 wins.',
+    id: 'snake',
+    title: 'Snake',
+    imagePath: 'assets/images/snake.png',
+    tagline: 'Snake',
     rules: const [
     ],
-    primaryColor: const Color(0xFFFFFFFF),
-    secondaryColor: const Color(0xFFFF0202),
-    gameScreenBuilder: (context) => const FruitDuelGameScreen(),
+    primaryColor: const Color(0xFF000000),
+    secondaryColor: const Color(0xFF252525),
+    gameScreenBuilder: (context) => const SnakeGameScreen(),
   ),
 ];
 
-class TwoPlayerList extends StatelessWidget {
-  const TwoPlayerList({super.key});
+class OnePlayerList extends StatelessWidget {
+  const OnePlayerList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +43,14 @@ class TwoPlayerList extends StatelessWidget {
                 const SizedBox(height: 8),
                 const Center(
                   child: Text(
-                  'GAMES',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 4,
+                    'GAMES',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 4,
+                    ),
                   ),
-                ),
                 ),
                 const SizedBox(height: 32),
                 Expanded(
