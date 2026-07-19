@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/game_info.dart';
 import '../games/fruit_duel/fruit_duel_game_screen.dart';
+import '../games/math_duel/math_duel_game_screen.dart';
 
 /// The single registry of games shown on the home screen. Add a new
 /// [GameInfo] entry here to make a new game appear in the app — nothing
@@ -13,11 +14,29 @@ final List<GameInfo> availableGames = [
     tagline: 'Cut fast. Dodge bombs. First to 10 wins.',
     rules: const [
     ],
-    primaryColor: const Color(0xFFFFFFFF),
-    secondaryColor: const Color(0xFFFF0202),
+    primaryColor: const Color(0xFF4E4D4D),
+    secondaryColor: const Color(0xFF000000),
     gameScreenBuilder: (context) => const FruitDuelGameScreen(),
   ),
+  GameInfo(
+    id: 'math_duel',
+    title: 'Math Duel',
+    imagePath: 'assets/images/math_duel.png',
+    tagline: 'Same equation, two players. Tap fast if it checks out.',
+    rules: const [
+      'The screen splits into two sides — Player 1 (left) and Player 2 (right).',
+      'The same equation appears in the middle for both players to see.',
+      'If the equation is TRUE, tap your button — first correct tap earns +1.',
+      'If the equation is FALSE, tapping costs you −1 point.',
+      'If nobody taps before it disappears, no points change hands.',
+      'First player to reach 10 points wins the duel!',
+    ],
+    primaryColor: const Color(0xFF000000),
+    secondaryColor: const Color(0xFF424242),
+    gameScreenBuilder: (context) => const MathDuelGameScreen(),
+  ),
 ];
+
 
 class TwoPlayerList extends StatelessWidget {
   const TwoPlayerList({super.key});

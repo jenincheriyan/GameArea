@@ -41,20 +41,16 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
   }
 
   void _goToWinnerScreen() {
-    // Small pause so the final score change is visible before transitioning.
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       if (!mounted) return;
+
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => WinnerScreen(
             winner: _controller.winner!,
             player1Score: _controller.player1Score,
             player2Score: _controller.player2Score,
-            onPlayAgain: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => const FruitDuelGameScreen()),
-              );
-            },
+            playAgainBuilder: (_) => const FruitDuelGameScreen(),
           ),
         ),
       );

@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import 'two_player_list.dart';
-import '../games/fruit_duel/fruit_duel_game_screen.dart';
+import 'home_screen.dart';
 
 class WinnerScreen extends StatelessWidget {
   final int winner;
   final int player1Score;
   final int player2Score;
-  final VoidCallback onPlayAgain;
+  final WidgetBuilder playAgainBuilder;
 
   const WinnerScreen({
     super.key,
     required this.winner,
     required this.player1Score,
     required this.player2Score,
-    required this.onPlayAgain,
+    required this.playAgainBuilder,
   });
 
   @override
   Widget build(BuildContext context) {
     final color =
-        winner == 1 ? const Color(0xFFFF5E5E) : const Color(0xFF4EA8DE);
+        winner == 2 ? const Color(0xFFFF5E5E) : const Color(0xFF4EA8DE);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -63,38 +62,21 @@ class WinnerScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 48),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (_) => const FruitDuelGameScreen(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: color,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 40,
-                      vertical: 16,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: const Text(
-                    'PLAY AGAIN',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: playAgainBuilder),
+                );
+              },
+              child: const Text('PLAY AGAIN',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (_) => const TwoPlayerList()),
+                      MaterialPageRoute(builder: (_) => const HomeScreen()),
                       (route) => false,
                     );
                   },

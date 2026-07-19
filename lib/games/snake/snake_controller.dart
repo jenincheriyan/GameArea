@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum Direction { up, down, left, right }
 
@@ -11,9 +10,6 @@ enum Direction { up, down, left, right }
 /// Plain Dart (a [ChangeNotifier]) with no widget dependency, same shape
 /// as [FruitDuelController] — a screen just listens and rebuilds.
 class SnakeController extends ChangeNotifier {
-  SnakeController() {
-    _loadHighScore();
-  }
   static const int gridSize = 16;
   static const Duration _startTickRate = Duration(milliseconds: 220);
   static const Duration _minTickRate = Duration(milliseconds: 90);
@@ -24,7 +20,7 @@ class SnakeController extends ChangeNotifier {
   late Point<int> food;
   Direction _direction = Direction.right;
   Direction _pendingDirection = Direction.right;
-  int highScore = 0;
+
   int score = 0;
   bool isGameOver = false;
 
@@ -130,10 +126,6 @@ class SnakeController extends ChangeNotifier {
     snake = [newHead, ...snake]; // new list instance so the UI can diff it
     if (willGrow) {
       score++;
-      if (score > highScore) {
-        highScore = score;
-        _saveHighScore();
-      }
       _spawnFood();
       _speedUp();
     } else {
@@ -167,15 +159,4 @@ class SnakeController extends ChangeNotifier {
     _timer?.cancel();
     _safeNotify();
   }
-  Future<void> _loadHighScore() async {
-    final prefs = await SharedPreferences.getInstance();
-    highScore = prefs.getInt('snake_high_score') ?? 0;
-    _safeNotify();
-  }
-
-  Future<void> _saveHighScore() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('snake_high_score', highScore);
-  }
 }
-

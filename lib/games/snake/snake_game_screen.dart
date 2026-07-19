@@ -61,40 +61,21 @@ class _SnakeGameScreenState extends State<SnakeGameScreen> {
             children: [
               const SizedBox(height: 4),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(
-                      Icons.arrow_back,
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  ),
+                  Text(
+                    'SCORE: ${_controller.score}',
+                    style: const TextStyle(
                       color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1,
                     ),
                   ),
-
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          'HIGH SCORE: ${_controller.highScore}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                        Text(
-                          'SCORE: ${_controller.score}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
                   const SizedBox(width: 48), // balances the back button
                 ],
               ),

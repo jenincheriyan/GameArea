@@ -24,7 +24,7 @@ enum RoundResult {
 class FruitDuelController extends ChangeNotifier {
   static const int targetScore = 10;
   static const List<String> _fruitEmojis = [
-    '🍎', '🍊', '🍌', '🍇', '🍉', '🍓', '🍍', '🥝'
+    '🍎', '🍌', '🍇', '🍓', '🍍'
   ];
   static const double _bombChance = 0.3;
 
