@@ -6,6 +6,8 @@ class WinnerScreen extends StatelessWidget {
   final int player1Score;
   final int player2Score;
   final WidgetBuilder playAgainBuilder;
+  final String player1Label;
+  final String player2Label;
 
   const WinnerScreen({
     super.key,
@@ -13,12 +15,15 @@ class WinnerScreen extends StatelessWidget {
     required this.player1Score,
     required this.player2Score,
     required this.playAgainBuilder,
+    this.player1Label = 'Player 1',
+    this.player2Label = 'Player 2',
   });
 
   @override
   Widget build(BuildContext context) {
     final color =
         winner == 2 ? const Color(0xFFFF5E5E) : const Color(0xFF4EA8DE);
+    final winnerLabel = winner == 2 ? player2Label : player1Label;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -36,7 +41,7 @@ class WinnerScreen extends StatelessWidget {
                 const Text('🏆', style: TextStyle(fontSize: 72)),
                 const SizedBox(height: 16),
                 Text(
-                  'PLAYER $winner WINS!',
+                  '${winnerLabel.toUpperCase()} WINS!',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 32,
@@ -49,13 +54,13 @@ class WinnerScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _ScoreChip(
-                      label: 'Player 1',
+                      label: player1Label,
                       score: player1Score,
                       highlighted: winner == 1,
                     ),
                     const SizedBox(width: 24),
                     _ScoreChip(
-                      label: 'Player 2',
+                      label: player2Label,
                       score: player2Score,
                       highlighted: winner == 2,
                     ),
