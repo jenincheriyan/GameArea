@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:idam/screens/splash_screen.dart';
 import 'screens/two_player_list.dart';
-void main() {
+import 'services/audio_manager.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AudioManager.instance.initialize();
   runApp(const IdamApp());
 }
 
