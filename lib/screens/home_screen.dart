@@ -37,18 +37,18 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      width: 28,
-                      height: 28,
+                      width: 32,
+                      height: 32,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
-                      child: ClipOval(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      // child: ClipOval(
+                      //   child: Image.asset(
+                      //     'assets/images/logo.png',
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
                     ),
                     // Center title
                     const Expanded(
