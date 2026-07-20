@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:idam/models/home_mode.dart';
 import '../screens/two_player_list.dart';
 import '../screens/one_player_list.dart';
+import 'settings_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   final ValueChanged<HomeMode>? onSelected;
@@ -33,24 +34,58 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 8),
-                const Center(
-                  child: Text(
-                    'SELECT MODE',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 2,
+                Row(
+                  children: [
+                    Container(
+                      width: 28,
+                      height: 28,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+                    // Center title
+                    const Expanded(
+                      child: Center(
+                        child: Text(
+                          'SELECT MODE',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Settings button
+                    IconButton(
+                      onPressed: () => showSettingsSheet(context),
+                      icon: const Icon(
+                        Icons.settings,
+                        color: Colors.white70,
+                        size: 28,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 6),
+
                 const Center(
                   child: Text(
-                  'How many players?',
-                  style: TextStyle(color: Colors.white70, fontSize: 15),
-                ),
+                    'How many players?',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 15,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 32),
                 Expanded(

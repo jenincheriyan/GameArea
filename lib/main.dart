@@ -1,18 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:idam/screens/splash_screen.dart';
-import 'screens/two_player_list.dart';
 import 'services/audio_manager.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AudioManager.instance.initialize();
   runApp(const IdamApp());
 }
 
-/// Root widget for Idam — a small hub of local two-player, pass-and-play
-/// games. New games are registered in [availableGames] (two_player_list.dart)
-/// and everything else (details screen, navigation, theming) just works.
-class IdamApp extends StatelessWidget {
+class IdamApp extends StatefulWidget {
   const IdamApp({super.key});
+
+  @override
+  State<IdamApp> createState() => _IdamAppState();
+}
+
+class _IdamAppState extends State<IdamApp>
+    with WidgetsBindingObserver {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        AudioManager.instance.resumeMusic();
+        break;
+
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.hidden:
+        AudioManager.instance.pauseMusic();
+        break;
+
+      case AppLifecycleState.detached:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -5,6 +5,13 @@ import '../games/math_duel/math_duel_game_screen.dart';
 import '../games/snake_multiplayer/snake_multiplayer_game_screen.dart';
 import '../games/snake_multiplayer/snake_multiplayer_controller.dart';
 import '../games/tic_tac_toe/tic_tac_toe_game_screen.dart';
+import '../games/tug_of_war/tug_of_war_game_screen.dart';
+import '../games/catch_the_fish/catch_the_fish_duel_screen.dart';
+import '../games/ball_basket/ball_basket_duel_screen.dart';
+import '../games/car_race/car_race_duel_screen.dart';
+import '../games/ludo/ludo_duel_screen.dart';
+import 'settings_sheet.dart';
+
 
 /// The single registry of games shown on the home screen. Add a new
 /// [GameInfo] entry here to make a new game appear in the app — nothing
@@ -70,6 +77,80 @@ final List<GameInfo> availableGames = [
     secondaryColor: const Color(0xFF1A1A2E),
     gameScreenBuilder: (context) => const TicTacToeGameScreen(vsAI: false),
   ),
+  // GameInfo(
+  //   id: 'tug_of_war',
+  //   title: 'Tug of War',
+  //   imagePath: 'assets/images/tug_of_war.png',
+  //   tagline: 'Tap as fast as you can to pull the rope your way.',
+  //   rules: const [
+  //     'The rope starts in the center.',
+  //     'Each player has their own big TAP button.',
+  //     'Every tap pulls the rope a little toward your side.',
+  //     'First to pull the rope all the way to their side wins.',
+  //   ],
+  //   primaryColor: const Color(0xFF302B63),
+  //   secondaryColor: const Color(0xFF24243E),
+  //   gameScreenBuilder: (context) => const TugOfWarGameScreen(),
+  // ),
+  // GameInfo(
+  //   id: 'catch_the_fish_2p',
+  //   title: 'Catch the Fish (Duel)',
+  //   imagePath: 'assets/images/catch_the_fish.png',
+  //   tagline: 'Fish appear in the middle — first tap wins the point.',
+  //   rules: const [
+  //     'The board is split into a Player 1 side and a Player 2 side.',
+  //     'Fish, sharks, and bombs always appear in the shared middle strip.',
+  //     'First player to tap a fish scores a point.',
+  //     'Tapping a shark or bomb costs a point. First to the target score wins.',
+  //   ],
+  //   primaryColor: const Color(0xFF03396C),
+  //   secondaryColor: const Color(0xFF6497B1),
+  //   gameScreenBuilder: (context) => const CatchTheFishDuelScreen(),
+  // ),
+  // GameInfo(
+  //   id: 'ball_basket_2p',
+  //   title: 'Ball in the Basket (Duel)',
+  //   imagePath: 'assets/images/ball_basket.png',
+  //   tagline: 'Two baskets, one clock — highest score wins.',
+  //   rules: const [
+  //     'Both players throw at the same time on their own half of the screen.',
+  //     'Drag away from the ball, then release to throw it toward your basket.',
+  //     'Whoever has the higher score when the clock runs out wins.',
+  //   ],
+  //   primaryColor: const Color(0xFFEE9CA7),
+  //   secondaryColor: const Color(0xFFFFDDE1),
+  //   gameScreenBuilder: (context) => const BallBasketDuelScreen(),
+  // ),
+  // GameInfo(
+  //   id: 'car_race_2p',
+  //   title: 'Car Race (Duel)',
+  //   imagePath: 'assets/images/car_race.png',
+  //   tagline: 'Same obstacles, side by side — first to the finish wins.',
+  //   rules: const [
+  //     'Both players race the exact same obstacle course, split top and bottom.',
+  //     'Use your left/right buttons to dodge traffic and grab coins.',
+  //     'First to reach 400m wins — or whoever\'s gone furthest if both crash.',
+  //   ],
+  //   primaryColor: const Color(0xFF232526),
+  //   secondaryColor: const Color(0xFF414345),
+  //   gameScreenBuilder: (context) => const CarRaceDuelScreen(),
+  // ),
+  // GameInfo(
+  //   id: 'ludo_2p',
+  //   title: 'Ludo',
+  //   imagePath: 'assets/images/ludo.png',
+  //   tagline: 'Classic Ludo, pass and play with 2-4 players.',
+  //   rules: const [
+  //     'Choose 2, 3, or 4 players, then pass the device between turns.',
+  //     'Roll a 6 to bring a token out of your yard.',
+  //     'Land on an opponent (off a safe cell) to send their token home.',
+  //     'Rolling a 6 or capturing an opponent earns another roll.',
+  //     'First to get all 4 tokens home wins.',
+  //   ],
+  //   primaryColor: const Color(0xFF302B63),
+  //   secondaryColor: const Color(0xFF24243E),
+  //   gameScreenBuilder: (context) => const LudoDuelScreen(),
+  // ),
 ];
 
 
@@ -94,16 +175,41 @@ class TwoPlayerList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 8),
-                const Center(
-                  child: Text(
-                  'GAMES',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 4,
-                  ),
-                ),
+                Row(
+                  children: [
+                    // Back button
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                    ),
+
+                    // Title
+                    const Expanded(
+                      child: Center(
+                        child: Text(
+                          'GAMES',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 4,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Settings button
+                    IconButton(
+                      onPressed: () => showSettingsSheet(context),
+                      icon: const Icon(
+                        Icons.settings,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 32),
                 Expanded(

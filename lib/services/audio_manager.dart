@@ -21,7 +21,15 @@ class AudioManager {
       playMusic();
     }
   }
+  Future<void> pauseMusic() async {
+    await _player.pause();
+  }
 
+  Future<void> resumeMusic() async {
+    if (musicEnabled) {
+      await _player.resume();
+    }
+  }
   Future<void> playMusic() async {
     if (!musicEnabled) return;
     await _player.play(

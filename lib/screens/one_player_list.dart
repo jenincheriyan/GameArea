@@ -3,7 +3,12 @@ import '../models/game_info.dart';
 import '../games/snake/snake_game_screen.dart';
 import '../games/math_game/math_game_screen.dart';
 import '../games/tic_tac_toe/tic_tac_toe_game_screen.dart';
-
+import '../games/flappy_bird/flappy_bird_game_screen.dart';
+import '../games/catch_the_fish/catch_the_fish_game_screen.dart';
+import '../games/ball_basket/ball_basket_game_screen.dart';
+import '../games/car_race/car_race_game_screen.dart';
+import '../games/ludo/ludo_game_screen.dart';
+import 'settings_sheet.dart';
 
 /// The single registry of games shown on the home screen. Add a new
 /// [GameInfo] entry here to make a new game appear in the app — nothing
@@ -50,6 +55,81 @@ final List<GameInfo> availableGames = [
     secondaryColor: const Color(0xFF1A1A2E),
     gameScreenBuilder: (context) => const TicTacToeGameScreen(vsAI: true),
   ),
+  GameInfo(
+    id: 'flappy_bird',
+    title: 'Flappy Bird',
+    imagePath: 'assets/images/flappy_bird.png',
+    tagline: 'Tap to flap, dodge the pipes, beat your best.',
+    rules: const [
+    'Tap anywhere to make the bird flap upward.',
+    'Gravity pulls it back down between taps.',
+    'Fly through the gaps in the pipes — hitting one, the ground, or the ceiling ends the run.',
+    'Speed picks up the further you get. Your best score is saved.',
+    ],
+    primaryColor: const Color(0xFF1E3C72),
+    secondaryColor: const Color(0xFF2A5298),
+    gameScreenBuilder: (context) => const FlappyBirdGameScreen(),
+  ),
+  // GameInfo(
+  //   id: 'catch_the_fish',
+  //   title: 'Catch the Fish',
+  //   imagePath: 'assets/images/catch_the_fish.png',
+  //   tagline: 'Tap fish to score. Sharks and bombs cost a life.',
+  //   rules: const [
+  //   'Fish, sharks, and bombs appear one at a time at random spots.',
+  //   'Tap a fish to score a point.',
+  //   'Tap a shark or a bomb and you lose one of your 3 lives.',
+  //   'Items get faster as your score climbs. Your best score is saved.',
+  //   ],
+  //   primaryColor: const Color(0xFF1E3C72),
+  //   secondaryColor: const Color(0xFF2A5298),
+  //   gameScreenBuilder: (context) => const FlappyBirdGameScreen(),
+  // ),
+  GameInfo(
+    id: 'ball_basket',
+    title: 'Ball in the Basket',
+    imagePath: 'assets/images/ball_basket.png',
+    tagline: 'Drag to aim, flick to throw, chain makes for bonus points.',
+    rules: const [
+      'Drag away from the ball like a slingshot, then release to throw it.',
+      'Land it in the basket to score — the basket moves each round.',
+      'Consecutive makes build a streak multiplier, up to x5.',
+      'Three misses ends the run. Your best score is saved.',
+    ],
+    primaryColor: const Color(0xFFEE9CA7),
+    secondaryColor: const Color(0xFFFFDDE1),
+    gameScreenBuilder: (context) => const BallBasketGameScreen(),
+  ),
+  GameInfo(
+    id: 'car_race',
+    title: 'Car Race',
+    imagePath: 'assets/images/car_race.png',
+    tagline: 'Dodge traffic, grab coins, rack up distance.',
+    rules: const [
+      'Switch lanes with the left/right buttons to dodge oncoming traffic.',
+      'Grab coins for bonus points.',
+      'Hitting a car ends the run — speed increases the further you get.',
+      'Your score is based on distance. Your best score is saved.',
+    ],
+    primaryColor: const Color(0xFF232526),
+    secondaryColor: const Color(0xFF414345),
+    gameScreenBuilder: (context) => const CarRaceGameScreen(),
+  ),
+  // GameInfo(
+  //   id: 'ludo_vs_ai',
+  //   title: 'Ludo (vs AI)',
+  //   imagePath: 'assets/images/ludo.png',
+  //   tagline: 'Classic Ludo — you against the computer.',
+  //   rules: const [
+  //     'Roll a 6 to bring a token out of your yard.',
+  //     'Move a token by the number rolled; land on an opponent (off a safe cell) to send them home.',
+  //     'Rolling a 6 or capturing an opponent earns another roll.',
+  //     'Get all 4 tokens home first to win.',
+  //   ],
+  //   primaryColor: const Color(0xFF302B63),
+  //   secondaryColor: const Color(0xFF24243E),
+  //   gameScreenBuilder: (context) => const LudoGameScreen(),
+  // ),
 ];
 
 class OnePlayerList extends StatelessWidget {
@@ -73,16 +153,42 @@ class OnePlayerList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 8),
-                const Center(
-                  child: Text(
-                    'GAMES',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 4,
+
+                Row(
+                  children: [
+                    // Back button
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
+
+                    // Title
+                    const Expanded(
+                      child: Center(
+                        child: Text(
+                          'GAMES',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 4,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Settings button
+                    IconButton(
+                      onPressed: () => showSettingsSheet(context),
+                      icon: const Icon(
+                        Icons.settings,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 32),
                 Expanded(
