@@ -2,7 +2,7 @@ GameArea is a Flutter-based mini games hub — a single app that bundles togethe
 
 Think of it as an arcade cabinet: pick a mode (1 Player or 2 Player), pick a game, and play.
 
-
+```
 Project Structure
 
 lib/
@@ -16,8 +16,8 @@ lib/
 ├── screens/
 │   ├── splash_screen.dart
 │   ├── home_screen.dart       # Mode picker (1 Player / 2 Player)
-│   ├── one_player_list.dart   # 🔑 registry of all 1-player GameInfo entries
-│   ├── two_player_list.dart   # 🔑 registry of all 2-player GameInfo entries
+│   ├── one_player_list.dart   #  registry of all 1-player GameInfo entries
+│   ├── two_player_list.dart   #  registry of all 2-player GameInfo entries
 │   ├── game_details_screen.dart # Rules/instructions screen before starting a game
 │   ├── winner_screen.dart
 │   └── settings_sheet.dart    # Mute toggle, etc.
@@ -37,6 +37,8 @@ lib/
         ├── <game>_controller.dart   # Game logic / state
         ├── <game>_game_screen.dart  # UI + gameplay loop
         └── widgets/                 # Game-specific widgets (boards, buttons, painters)
+
+```
 ```
 
 Each game is self-contained under `lib/games/<game_name>/`, typically split into:
@@ -96,7 +98,6 @@ Contributions are very welcome, whether it's a bug fix, a new game, or finishing
 
 - Create three player and four player
 - Add a global leaderboard or achievements system
-- Add haptic feedback
 - improve UI, UX
 - Improve accessibility (font scaling, color contrast, screen-reader labels)
 - Add unit/widget tests (the project currently has minimal test coverage)
