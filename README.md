@@ -1,64 +1,102 @@
-# Idam
+GameArea is a Flutter-based mini games hub — a single app that bundles together a growing collection of single-player and two-player (same-device) games, all wrapped in one.
 
-A small hub of local, pass-and-play, two-player mobile games built in Flutter.
-The first game is **Fruit Duel**.
+Think of it as an arcade cabinet: pick a mode (1 Player or 2 Player), pick a game, and play.
 
-## Running it
 
-This zip contains only the `lib/` source and `pubspec.yaml` — you'll need the
-standard Flutter platform scaffolding (`android/`, `ios/`, etc.) around it.
+Project Structure
 
-1. Create a fresh Flutter project and drop these files in:
-   ```bash
-   flutter create idam
-   cd idam
-   # copy lib/ and pubspec.yaml from this zip into the new project, overwriting the defaults
-   flutter pub get
-   flutter run
-   ```
-2. Or, if you already have a Flutter project, just copy `lib/` and merge
-   `pubspec.yaml`'s `dependencies` section into yours.
-
-No Firebase, no internet permissions, no backend — everything is local state.
-
-## Project structure
-
-```
 lib/
-  main.dart                     # MaterialApp root, points at HomeScreen
-  models/
-    game_info.dart              # Describes one game for the home/details screens
-    game_object.dart            # A spawned fruit/bomb object
-  screens/
-    home_screen.dart            # Game picker grid (register new games here)
-    game_details_screen.dart    # Rules + Start Game button
-    winner_screen.dart          # Final score + Play Again / Back to Home
-  games/
-    fruit_duel/
-      fruit_duel_controller.dart   # All game logic: spawning, timers, scoring
-      fruit_duel_game_screen.dart  # Landscape game screen, wires controller to UI
-      widgets/
-        sword_button.dart          # Tappable sword with slash animation
-        spawn_object_view.dart     # Animated center fruit/bomb
-        player_panel.dart          # One side's score + sword + CUT button
+├── main.dart                 # App entry point, theme, lifecycle-aware audio pausing
+├── models/
+│   ├── game_info.dart         # GameInfo model — describes a game card in the registry
+│   ├── game_object.dart
+│   └── home_mode.dart          # HomeMode enum (onePlayer / twoPlayer)
+├── services/
+│   └── audio_manager.dart     # Singleton for background music + sound effects
+├── screens/
+│   ├── splash_screen.dart
+│   ├── home_screen.dart       # Mode picker (1 Player / 2 Player)
+│   ├── one_player_list.dart   # 🔑 registry of all 1-player GameInfo entries
+│   ├── two_player_list.dart   # 🔑 registry of all 2-player GameInfo entries
+│   ├── game_details_screen.dart # Rules/instructions screen before starting a game
+│   ├── winner_screen.dart
+│   └── settings_sheet.dart    # Mute toggle, etc.
+└── games/
+    ├── snake/
+    ├── tic_tac_toe/
+    ├── math_game/
+    ├── math_duel/
+    ├── flappy_bird/
+    ├── ball_basket/
+    ├── car_race/
+    ├── fruit_duel/
+    ├── snake_multiplayer/
+    ├── catch_the_fish/
+    ├── tug_of_war/
+    └── ludo/
+        ├── <game>_controller.dart   # Game logic / state
+        ├── <game>_game_screen.dart  # UI + gameplay loop
+        └── widgets/                 # Game-specific widgets (boards, buttons, painters)
 ```
 
-## Adding a new game later
+Each game is self-contained under `lib/games/<game_name>/`, typically split into:
+- a **controller** (game state, rules, timers, scoring)
+- a **screen** (renders the controller's state, handles input)
+- **widgets** (custom-painted boards, buttons, HUD elements)
 
-1. Build it under `lib/games/<your_game>/`, following the Fruit Duel folder
-   as a template (a `ChangeNotifier` controller + a screen that listens to it
-   tends to keep things simple).
-2. Add one `GameInfo` entry to `availableGames` in `home_screen.dart` — title,
-   emoji, tagline, rules list, colors, and a builder for its game screen.
-3. That's it. The home screen grid and the details screen are generic and
-   pick up any game described this way automatically.
+---
 
-## How Fruit Duel's fairness is enforced
+Getting Started
 
-Each spawned object gets a unique incrementing id. The controller keeps a
-single `_objectResolved` flag per object: the *first* thing to touch it —
-whichever player's `cut()` call runs first, or the expiry timer if nobody
-cuts in time — flips that flag and every other event for that same object
-is ignored. Since Dart callbacks run to completion on a single thread, there
-is no race condition even if both players tap in the same frame; whichever
-tap handler executes first wins the point, and the second is a no-op.
+### Prerequisites
+
+- [Flutter SDK](https://docs.flutter.dev/get-started/install) (channel `stable` recommended)
+- A configured emulator/simulator, or a physical Android/iOS device
+- Dart SDK `>=3.0.0 <4.0.0` (bundled with Flutter)
+
+### Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/<your-username>/game_area.git
+cd game_area
+
+# 2. Install dependencies
+flutter pub get
+
+# 3. Run the app
+flutter run
+```
+
+
+Adding a New Game
+
+The project is intentionally structured so a new game can be added without touching the home screen, navigation, or details screen. This is documented directly in `lib/models/game_info.dart`:
+
+1. Build the new game's screen(s) and controller under `lib/games/<your_game>/`.
+2. Create a `GameInfo` entry describing it (id, title, image, tagline, rules, colors, and the screen builder).
+3. Add that `GameInfo` to the `availableGames` list in `one_player_list.dart` (for solo games) or `two_player_list.dart` (for duel games).
+
+That's it — the home screen grid, the details/rules screen, and navigation all pick it up automatically.
+
+---
+
+## 🤝 Contributing
+
+Contributions are very welcome, whether it's a bug fix, a new game, or finishing one of the scaffolded-but-disabled games (Ludo, Catch the Fish, Tug of War, and the duel variants of Ball Basket / Car Race).
+
+1. **Fork** the repository
+2. **Create a branch** for your change: `git checkout -b feature/my-new-game`
+3. **Follow the existing structure**: keep game logic in a controller, keep the screen focused on rendering/input, and reuse the `GameInfo` pattern for registration
+4. **Run the linter** before committing: `flutter analyze`
+5. **Commit** your changes with a clear message
+6. **Push** to your fork and **open a Pull Request** describing what you changed and why
+
+### Ideas for contributions
+
+- Create three player and four player
+- Add a global leaderboard or achievements system
+- Add haptic feedback
+- improve UI, UX
+- Improve accessibility (font scaling, color contrast, screen-reader labels)
+- Add unit/widget tests (the project currently has minimal test coverage)
