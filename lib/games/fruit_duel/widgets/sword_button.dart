@@ -65,15 +65,15 @@ class _SwordButtonState extends State<SwordButton>
           );
         },
         child: Container(
-          width: 84,
-          height: 84,
+          width: 72,
+          height: 72,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: widget.color,
             boxShadow: [
               BoxShadow(
-                color: widget.color.withOpacity(0.55),
-                blurRadius: 18,
+                color: widget.color.withOpacity(0.6),
+                blurRadius: 16,
                 spreadRadius: 1,
               ),
             ],
@@ -81,7 +81,7 @@ class _SwordButtonState extends State<SwordButton>
           child: Transform.flip(
             flipX: widget.flip,
             child: const Center(
-              child: Text('🗡️', style: TextStyle(fontSize: 38)),
+              child: Text('🗡️', style: TextStyle(fontSize: 32)),
             ),
           ),
         ),

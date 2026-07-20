@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../math_equation.dart';
-
 /// One player's half of the face-off layout: the shared equation centered
 /// in plain bold text, and a colored avatar/answer button with an
 /// attached score pill tucked into the outer corner.
