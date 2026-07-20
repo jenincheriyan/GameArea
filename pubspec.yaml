@@ -1,5 +1,5 @@
-name: idam
-description: "Idam — local pass-and-play multiplayer games for two."
+name: game_area
+description: "A collection of games."
 publish_to: 'none'
 version: 1.0.0+1
 

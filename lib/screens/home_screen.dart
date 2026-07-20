@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:idam/models/home_mode.dart';
+import 'package:game_area/models/home_mode.dart';
 import '../screens/two_player_list.dart';
 import '../screens/one_player_list.dart';
 import 'settings_sheet.dart';

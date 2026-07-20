@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:idam/screens/splash_screen.dart';
+import 'package:game_area/screens/splash_screen.dart';
 import 'services/audio_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await AudioManager.instance.initialize();
-  runApp(const IdamApp());
+  runApp(const GameAreaApp());
 }
 
-class IdamApp extends StatefulWidget {
-  const IdamApp({super.key});
+class GameAreaApp extends StatefulWidget {
+  const GameAreaApp({super.key});
 
   @override
-  State<IdamApp> createState() => _IdamAppState();
+  State<GameAreaApp> createState() => _GameAreaAppState();
 }
 
-class _IdamAppState extends State<IdamApp>
+class _GameAreaAppState extends State<GameAreaApp>
     with WidgetsBindingObserver {
 
   @override
@@ -51,7 +51,7 @@ class _IdamAppState extends State<IdamApp>
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Idam',
+      title: 'GameArea',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,

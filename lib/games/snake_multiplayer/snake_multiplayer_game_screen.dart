@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../../screens/winner_screen.dart';
 import 'snake_multiplayer_controller.dart';
@@ -66,9 +67,9 @@ class _SnakeMultiplayerGameScreenState
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0F0C29), Color(0xFF302B63), Color(0xFF24243E)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            colors: [Color(0xFF1A1A2E), Color(0xFF16213E)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
         child: SafeArea(
@@ -78,9 +79,17 @@ class _SnakeMultiplayerGameScreenState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.15),
+                      ),
+                      child: const Icon(Icons.close, color: Colors.white70, size: 20),
+                    ),
                   ),
                   _ScorePill(
                     label: 'P1',
@@ -90,11 +99,11 @@ class _SnakeMultiplayerGameScreenState
                   ),
                   Text(
                     'FIRST TO ${SnakeMultiplayerController.targetScore}',
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 11,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.6),
+                      fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 1,
+                      letterSpacing: 1.5,
                     ),
                   ),
                   _ScorePill(
@@ -103,8 +112,18 @@ class _SnakeMultiplayerGameScreenState
                     color: _p2Color,
                     dead: _controller.snake2Dead,
                   ),
-                  const SizedBox(width: 48), // balances the back button
+                  const SizedBox(width: 40), // balances the exit button
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Transform.rotate(
+                  angle: math.pi,
+                  child: PlayerDPad(
+                    color: _p1Color,
+                    onDirection: _controller.changeDirection1,
+                  ),
+                ),
               ),
               Expanded(
                 child: Center(
@@ -138,19 +157,10 @@ class _SnakeMultiplayerGameScreenState
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    PlayerDPad(
-                      color: _p1Color,
-                      onDirection: _controller.changeDirection1,
-                    ),
-                    PlayerDPad(
-                      color: _p2Color,
-                      onDirection: _controller.changeDirection2,
-                    ),
-                  ],
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: PlayerDPad(
+                  color: _p2Color,
+                  onDirection: _controller.changeDirection2,
                 ),
               ),
             ],
@@ -176,38 +186,38 @@ class _ScorePill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: color.withOpacity(dead ? 0.08 : 0.18),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(dead ? 0.25 : 0.7)),
-      ),
-      child: Row(
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              color: dead ? Colors.white38 : Colors.white70,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-            ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: dead ? Colors.white.withOpacity(0.3) : Colors.white.withOpacity(0.6),
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.5,
           ),
-          const SizedBox(width: 6),
-          Text(
+        ),
+        const SizedBox(width: 8),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 260),
+          transitionBuilder: (child, anim) =>
+              ScaleTransition(scale: anim, child: child),
+          child: Text(
             '$score',
+            key: ValueKey(score),
             style: TextStyle(
-              color: dead ? Colors.white38 : Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w900,
+              color: dead ? color.withOpacity(0.35) : color,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          if (dead) ...[
-            const SizedBox(width: 4),
-            const Icon(Icons.close, color: Colors.white38, size: 12),
-          ],
+        ),
+        if (dead) ...[
+          const SizedBox(width: 4),
+          const Icon(Icons.close, color: Colors.white38, size: 14),
         ],
-      ),
+      ],
     );
   }
 }
