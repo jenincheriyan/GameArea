@@ -21,8 +21,8 @@ final List<GameInfo> availableGames = [
     tagline: 'Snake',
     rules: const [
     ],
-    primaryColor: const Color(0xFF000000),
-    secondaryColor: const Color(0xFF252525),
+    primaryColor: const Color(0xFFACB502),
+    secondaryColor: const Color(0xFFACB502),
     gameScreenBuilder: (context) => const SnakeGameScreen(),
   ),
   GameInfo(
