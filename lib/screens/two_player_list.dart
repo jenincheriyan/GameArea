@@ -10,6 +10,7 @@ import '../games/catch_the_fish/catch_the_fish_duel_screen.dart';
 import '../games/ball_basket/ball_basket_duel_screen.dart';
 import '../games/car_race/car_race_duel_screen.dart';
 import '../games/ludo/ludo_duel_screen.dart';
+import '../games/coming_soon/coming_soon_screen.dart';
 import 'settings_sheet.dart';
 
 
@@ -46,24 +47,6 @@ final List<GameInfo> availableGames = [
     gameScreenBuilder: (context) => const MathDuelGameScreen(),
   ),
   GameInfo(
-    id: 'snake_multiplayer',
-    title: 'SNAKE',
-    imagePath: 'assets/images/snake_multiplayer.png',
-    tagline: 'Two snakes, two foods, one board. First to '
-        '${SnakeMultiplayerController.targetScore} wins.',
-    rules: const [
-      'Both snakes move on the same board at the same time.',
-      'Two food items are always on the board — either snake can eat either one.',
-      'Player 1 uses the left D-pad, Player 2 uses the right D-pad.',
-      'Hitting a wall, yourself, or the other snake ends that snake\'s run.',
-      'The match ends when a player reaches the target score, or when both snakes are down.',
-      'Whoever has the higher score when it ends wins!',
-    ],
-    primaryColor: const Color(0xFF302B63),
-    secondaryColor: const Color(0xFF24243E),
-    gameScreenBuilder: (context) => const SnakeMultiplayerGameScreen(),
-  ),
-  GameInfo(
     id: 'tic_tac_toe_2p',
     title: 'XOX',
     imagePath: 'assets/images/tic_tac_toe.png',
@@ -76,6 +59,24 @@ final List<GameInfo> availableGames = [
     primaryColor: const Color(0xFF4E4D4D),
     secondaryColor: const Color(0xFF1A1A2E),
     gameScreenBuilder: (context) => const TicTacToeGameScreen(vsAI: false),
+  ),
+  GameInfo(
+    id: 'snake_multiplayer',
+    title: '',
+    imagePath: 'assets/images/coming_soon.png',
+    tagline: 'Two snakes, two foods, one board. First to '
+        '${SnakeMultiplayerController.targetScore} wins.',
+    rules: const [
+      'Both snakes move on the same board at the same time.',
+      'Two food items are always on the board — either snake can eat either one.',
+      'Player 1 uses the left D-pad, Player 2 uses the right D-pad.',
+      'Hitting a wall, yourself, or the other snake ends that snake\'s run.',
+      'The match ends when a player reaches the target score, or when both snakes are down.',
+      'Whoever has the higher score when it ends wins!',
+    ],
+    primaryColor: const Color(0xFFFBCB09),
+    secondaryColor: const Color(0xFFFBCB09),
+    gameScreenBuilder: (context) => const ComingSoonScreen(),
   ),
   // GameInfo(
   //   id: 'tug_of_war',

@@ -8,6 +8,7 @@ import '../games/catch_the_fish/catch_the_fish_game_screen.dart';
 import '../games/ball_basket/ball_basket_game_screen.dart';
 import '../games/car_race/car_race_game_screen.dart';
 import '../games/ludo/ludo_game_screen.dart';
+import '../games/coming_soon/coming_soon_screen.dart';
 import 'settings_sheet.dart';
 
 /// The single registry of games shown on the home screen. Add a new
@@ -27,7 +28,7 @@ final List<GameInfo> availableGames = [
   ),
   GameInfo(
     id: 'math_game',
-    title: 'Math',
+    title: 'MATH',
     imagePath: 'assets/images/math_game.png',
     tagline: 'True or false? Answer fast, climb your high score.',
     rules: const [
@@ -57,7 +58,7 @@ final List<GameInfo> availableGames = [
   ),
   GameInfo(
     id: 'flappy_bird',
-    title: 'Flappy Bird',
+    title: 'BOUNCE',
     imagePath: 'assets/images/flappy_bird.png',
     tagline: 'Tap to flap, dodge the pipes, beat your best.',
     rules: const [
@@ -85,24 +86,24 @@ final List<GameInfo> availableGames = [
   //   secondaryColor: const Color(0xFF2A5298),
   //   gameScreenBuilder: (context) => const FlappyBirdGameScreen(),
   // ),
-  GameInfo(
-    id: 'ball_basket',
-    title: 'Ball in the Basket',
-    imagePath: 'assets/images/ball_basket.png',
-    tagline: 'Drag to aim, flick to throw, chain makes for bonus points.',
-    rules: const [
-      'Drag away from the ball like a slingshot, then release to throw it.',
-      'Land it in the basket to score — the basket moves each round.',
-      'Consecutive makes build a streak multiplier, up to x5.',
-      'Three misses ends the run. Your best score is saved.',
-    ],
-    primaryColor: const Color(0xFFEE9CA7),
-    secondaryColor: const Color(0xFFFFDDE1),
-    gameScreenBuilder: (context) => const BallBasketGameScreen(),
-  ),
+  // GameInfo(
+  //   id: 'ball_basket',
+  //   title: 'Ball in the Basket',
+  //   imagePath: 'assets/images/ball_basket.png',
+  //   tagline: 'Drag to aim, flick to throw, chain makes for bonus points.',
+  //   rules: const [
+  //     'Drag away from the ball like a slingshot, then release to throw it.',
+  //     'Land it in the basket to score — the basket moves each round.',
+  //     'Consecutive makes build a streak multiplier, up to x5.',
+  //     'Three misses ends the run. Your best score is saved.',
+  //   ],
+  //   primaryColor: const Color(0xFFEE9CA7),
+  //   secondaryColor: const Color(0xFFFFDDE1),
+  //   gameScreenBuilder: (context) => const BallBasketGameScreen(),
+  // ),
   GameInfo(
     id: 'car_race',
-    title: 'Car Race',
+    title: 'RACE',
     imagePath: 'assets/images/car_race.png',
     tagline: 'Dodge traffic, grab coins, rack up distance.',
     rules: const [
@@ -130,6 +131,23 @@ final List<GameInfo> availableGames = [
   //   secondaryColor: const Color(0xFF24243E),
   //   gameScreenBuilder: (context) => const LudoGameScreen(),
   // ),
+  GameInfo(
+    id: 'snake_multiplayer',
+    title: '',
+    imagePath: 'assets/images/coming_soon.png',
+    tagline: 'Two snakes, two foods, one board. First to ',
+    rules: const [
+      'Both snakes move on the same board at the same time.',
+      'Two food items are always on the board — either snake can eat either one.',
+      'Player 1 uses the left D-pad, Player 2 uses the right D-pad.',
+      'Hitting a wall, yourself, or the other snake ends that snake\'s run.',
+      'The match ends when a player reaches the target score, or when both snakes are down.',
+      'Whoever has the higher score when it ends wins!',
+    ],
+    primaryColor: const Color(0xFFFBCB09),
+    secondaryColor: const Color(0xFFFBCB09),
+    gameScreenBuilder: (context) => const ComingSoonScreen(),
+  ),
 ];
 
 class OnePlayerList extends StatelessWidget {
