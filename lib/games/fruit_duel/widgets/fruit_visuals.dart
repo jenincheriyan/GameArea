@@ -15,9 +15,9 @@ class FruitStyle {
 
 const Map<String, FruitStyle> fruitStyles = {
   '🍎': FruitStyle(Color(0xFFE6432E), Color(0xFFC22A1B), Color(0xFFB8281A)),
-  '🍊': FruitStyle(Color(0xFFFC912E), Color(0xFFE07A1E), Color(0xFFD37417)),
+/*  '🍊': FruitStyle(Color(0xFFFC912E), Color(0xFFE07A1E), Color(0xFFD37417)),
   '🍌': FruitStyle(Color(0xFFFFD23F), Color(0xFFE0B000), Color(0xFFD6A700),
-      leaf: false),
+      leaf: false),*/
   '🍇': FruitStyle(Color(0xFF9B59B6), Color(0xFF7D3C98), Color(0xFF6C3483)),
   '🍓': FruitStyle(Color(0xFFFF5C7A), Color(0xFFE0335A), Color(0xFFC71F45)),
   '🍍': FruitStyle(Color(0xFFF4C430), Color(0xFFCB9600), Color(0xFFB98600),

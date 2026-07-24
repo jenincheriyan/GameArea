@@ -69,7 +69,7 @@ class _MathDuelGameScreenState extends State<MathDuelGameScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF1A1A2E), Color(0xFF16213E)],
+            colors: [Color(0xFFA870AC), Color(0xFF7C4C82)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

@@ -78,7 +78,7 @@ class _TicTacToeGameScreenState extends State<TicTacToeGameScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0F0C29), Color(0xFF302B63), Color(0xFF24243E)],
+            colors: [Color(0xFFA870AC), Color(0xFF7C4C82)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -142,18 +142,33 @@ class _TurnIndicator extends StatelessWidget {
     final label = controller.aiThinking
         ? 'AI IS THINKING…'
         : vsAI
-            ? (controller.currentPlayer == 1 ? 'YOUR TURN (X)' : "AI'S TURN (O)")
-            : (controller.currentPlayer == 1 ? 'PLAYER 1 (X)' : 'PLAYER 2 (O)');
+            ? (controller.currentPlayer == 1 ? 'YOUR TURN' : "AI'S TURN")
+            : (controller.currentPlayer == 1 ? 'PLAYER 1' : 'PLAYER 2');
     final color = controller.currentPlayer == 1
-        ? const Color(0xFF4EA8DE)
-        : const Color(0xFFFF5E5E);
-    return Text(
-      label,
-      style: TextStyle(
-        color: color,
-        fontSize: 16,
-        fontWeight: FontWeight.w800,
-        letterSpacing: 1,
+        ? const Color(0xFF00A0FF)
+        : const Color(0xFFFF0000);
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFFFFF),
+        border: Border.all(color: color, width: 0),
+        borderRadius: const BorderRadius.horizontal(
+          left: Radius.circular(24),
+          right: Radius.circular(24),
+        ),
+      ),
+      child: Text(
+        label,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: color,
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 1,
+        ),
       ),
     );
   }

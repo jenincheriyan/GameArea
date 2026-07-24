@@ -24,7 +24,7 @@ class PlayerHalf extends StatelessWidget {
     required this.color,
     required this.equation,
     required this.onTap,
-    this.icon = Icons.check_circle,
+    this.icon = Icons.done_outlined,
   });
 
   @override

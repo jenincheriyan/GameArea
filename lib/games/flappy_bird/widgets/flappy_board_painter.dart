@@ -10,7 +10,7 @@ class FlappyBoardPainter extends CustomPainter {
   FlappyBoardPainter({required this.pipes, required this.birdY});
 
   static const _pipeColor = Color(0xFF89FF8E);
-  static const _birdColor = Color(0xFFFF9898);
+  static const _birdColor = Color(0xFFFDB700);
 
   @override
   void paint(Canvas canvas, Size size) {

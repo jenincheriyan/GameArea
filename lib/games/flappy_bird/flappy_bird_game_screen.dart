@@ -37,7 +37,7 @@ class _FlappyBirdGameScreenState extends State<FlappyBirdGameScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF000000), Color(0xFF000000)],
+            colors: [Color(0xFFA870AC), Color(0xFF7C4C82)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

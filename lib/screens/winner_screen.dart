@@ -15,8 +15,8 @@ class WinnerScreen extends StatelessWidget {
     required this.player1Score,
     required this.player2Score,
     required this.playAgainBuilder,
-    this.player1Label = 'Player 1',
-    this.player2Label = 'Player 2',
+    this.player1Label = 'BLUE',
+    this.player2Label = 'RED',
   });
 
   @override

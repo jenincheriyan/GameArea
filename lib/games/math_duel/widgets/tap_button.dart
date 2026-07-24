@@ -58,17 +58,17 @@ class _TapButtonState extends State<TapButton>
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: widget.color,
-            boxShadow: [
-              BoxShadow(
-                color: widget.color.withOpacity(0.55),
-                blurRadius: 20,
-                spreadRadius: 2,
-              ),
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: widget.color.withOpacity(0.55),
+            //     blurRadius: 20,
+            //     spreadRadius: 2,
+            //   ),
+            // ],
           ),
-          child: const Center(
-            child: Icon(Icons.check_rounded, color: Colors.white, size: 50),
-          ),
+          /*child: const Center(
+            child: Icon(Icons.check_rounded, color: Colors.white, size: 100),
+          ),*/
         ),
       ),
     );

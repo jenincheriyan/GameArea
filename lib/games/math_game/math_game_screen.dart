@@ -38,7 +38,7 @@ class _MathGameScreenState extends State<MathGameScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0F0C29), Color(0xFF302B63), Color(0xFF24243E)],
+            colors: [Color(0xFFA870AC), Color(0xFF7C4C82)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
