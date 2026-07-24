@@ -1,4 +1,4 @@
-package com.example.idam
+package com.jenincheriyan.gamearea
 
 import io.flutter.embedding.android.FlutterActivity
 
