@@ -37,8 +37,8 @@ final List<GameInfo> availableGames = [
       'Each correct answer adds to your score and the questions get a bit harder.',
       'One wrong answer ends the run — your best score is saved.',
     ],
-    primaryColor: const Color(0xFF302B63),
-    secondaryColor: const Color(0xFF0F0C29),
+    primaryColor: const Color(0xFF000000),
+    secondaryColor: const Color(0xFF000000),
     gameScreenBuilder: (context) => const MathGameScreen(),
   ),
   GameInfo(
@@ -52,8 +52,8 @@ final List<GameInfo> availableGames = [
       'First to line up three marks in a row, column, or diagonal wins.',
       'If the board fills up with no winner, it\'s a draw.',
     ],
-    primaryColor: const Color(0xFF4E4D4D),
-    secondaryColor: const Color(0xFF1A1A2E),
+    primaryColor: const Color(0xFF000000),
+    secondaryColor: const Color(0xFF000000),
     gameScreenBuilder: (context) => const TicTacToeGameScreen(vsAI: true),
   ),
   GameInfo(
@@ -67,8 +67,8 @@ final List<GameInfo> availableGames = [
     'Fly through the gaps in the pipes — hitting one, the ground, or the ceiling ends the run.',
     'Speed picks up the further you get. Your best score is saved.',
     ],
-    primaryColor: const Color(0xFF1E3C72),
-    secondaryColor: const Color(0xFF2A5298),
+    primaryColor: const Color(0xFF000000),
+    secondaryColor: const Color(0xFF000000),
     gameScreenBuilder: (context) => const FlappyBirdGameScreen(),
   ),
   // GameInfo(

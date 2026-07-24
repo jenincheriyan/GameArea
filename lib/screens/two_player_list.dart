@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/game_info.dart';
 import '../games/fruit_duel/fruit_duel_game_screen.dart';
 import '../games/math_duel/math_duel_game_screen.dart';
-import '../games/snake_multiplayer/snake_multiplayer_game_screen.dart';
+  import '../games/snake_multiplayer/snake_multiplayer_game_screen.dart';
 import '../games/snake_multiplayer/snake_multiplayer_controller.dart';
 import '../games/tic_tac_toe/tic_tac_toe_game_screen.dart';
 import '../games/tug_of_war/tug_of_war_game_screen.dart';
@@ -25,14 +25,14 @@ final List<GameInfo> availableGames = [
     tagline: 'Cut fast. Dodge bombs. First to 10 wins.',
     rules: const [
     ],
-    primaryColor: const Color(0xFF4E4D4D),
+    primaryColor: const Color(0xFF000000),
     secondaryColor: const Color(0xFF000000),
     gameScreenBuilder: (context) => const FruitDuelGameScreen(),
   ),
   GameInfo(
     id: 'math_duel',
     title: 'MATH',
-    imagePath: 'assets/images/math_duel.png',
+    imagePath: 'assets/images/math_game.png',
     tagline: 'Same equation, two players. Tap fast if it checks out.',
     rules: const [
       'The screen splits into two sides — Player 1 (left) and Player 2 (right).',
@@ -43,7 +43,7 @@ final List<GameInfo> availableGames = [
       'First player to reach 10 points wins the duel!',
     ],
     primaryColor: const Color(0xFF000000),
-    secondaryColor: const Color(0xFF424242),
+    secondaryColor: const Color(0xFF000000),
     gameScreenBuilder: (context) => const MathDuelGameScreen(),
   ),
   GameInfo(
@@ -56,8 +56,8 @@ final List<GameInfo> availableGames = [
       'First to line up three marks in a row, column, or diagonal wins.',
       'If the board fills up with no winner, it\'s a draw.',
     ],
-    primaryColor: const Color(0xFF4E4D4D),
-    secondaryColor: const Color(0xFF1A1A2E),
+    primaryColor: const Color(0xFF000000),
+    secondaryColor: const Color(0xFF000000),
     gameScreenBuilder: (context) => const TicTacToeGameScreen(vsAI: false),
   ),
   GameInfo(

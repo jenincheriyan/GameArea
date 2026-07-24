@@ -27,10 +27,10 @@ class FlappyBirdController extends ChangeNotifier {
   static const double pipeWidth = 62;
   static const String _highScoreKey = 'flappy_bird_high_score';
 
-  static const double _gravity = 0.55;
+  static const double _gravity = 0.40;
   static const double _flapVelocity = -8.6;
   static const Duration _frameRate = Duration(milliseconds: 16);
-  static const double _pipeSpacing = 240;
+  static const double _pipeSpacing = 280;
 
   final Random _random = Random();
 
@@ -107,7 +107,7 @@ class FlappyBirdController extends ChangeNotifier {
 
   /// Difficulty tier from score: pipes speed up and the gap narrows,
   /// both clamped so it never becomes unfair-impossible.
-  double get _pipeSpeed => min(3.2 + score * 0.08, 6.5);
+  double get _pipeSpeed => min(2.4 + score * 0.05, 4.2);
   double get _gapHeight => max(190 - score * 3.0, 130);
 
   void _tick() {

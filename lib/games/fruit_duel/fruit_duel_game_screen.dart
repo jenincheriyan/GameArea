@@ -1,8 +1,10 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../models/game_object.dart';
 import '../../screens/winner_screen.dart';
 import 'fruit_duel_controller.dart';
+import 'services/audio_service.dart';
 import 'widgets/player_panel.dart';
 import 'widgets/spawn_object_view.dart';
 
@@ -13,9 +15,14 @@ class FruitDuelGameScreen extends StatefulWidget {
   State<FruitDuelGameScreen> createState() => _FruitDuelGameScreenState();
 }
 
-class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
+class _FruitDuelGameScreenState extends State<FruitDuelGameScreen>
+    with SingleTickerProviderStateMixin {
   late final FruitDuelController _controller;
+  late final AnimationController _shakeController;
+  final AudioService _audio = AudioService.instance;
+
   bool _navigatedToWinner = false;
+  int _lastSeenResultTick = 0;
 
   @override
   void initState() {
@@ -26,15 +33,39 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.immersiveSticky,
     );
+
+    _shakeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
     _controller = FruitDuelController()..addListener(_onGameStateChanged);
+    _lastSeenResultTick = _controller.resultTick;
     _controller.start();
   }
 
   void _onGameStateChanged() {
     if (!mounted) return;
+
+    if (_controller.resultTick != _lastSeenResultTick) {
+      _lastSeenResultTick = _controller.resultTick;
+      final obj = _controller.lastResolvedObject;
+      if (obj != null) {
+        if (obj.kind == ObjectKind.bomb) {
+          _audio.playExplosion();
+          _shakeController.forward(from: 0);
+        } else {
+          _audio.playFruitSlice();
+          _audio.playJuiceSplash();
+        }
+      }
+    }
+
     setState(() {});
+
     if (_controller.winner != null && !_navigatedToWinner) {
       _navigatedToWinner = true;
+      _audio.playVictoryFanfare();
       _goToWinnerScreen();
     }
   }
@@ -60,6 +91,7 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
   void dispose() {
     _controller.removeListener(_onGameStateChanged);
     _controller.dispose();
+    _shakeController.dispose();
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.edgeToEdge,
     );
@@ -70,72 +102,86 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
     super.dispose();
   }
 
+  void _cut(int player) {
+    _audio.playButtonTap();
+    _controller.cut(player);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
+          // Purple gradient background, per the reference art.
           gradient: LinearGradient(
-            colors: [Color(0xFF1A1A2E), Color(0xFF16213E)],
+            colors: [Color(0xFFA870AC), Color(0xFF7C4C82)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         child: SafeArea(
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  // Top player's half — rotated 180° so their sword sits
-                  // right-side up for someone facing the phone from that
-                  // end, matching Math Duel's face-off layout.
-                  Expanded(
-                    child: Transform.rotate(
-                      angle: math.pi,
+          child: AnimatedBuilder(
+            animation: _shakeController,
+            builder: (context, child) {
+              final t = _shakeController.value;
+              final decay = (1 - t);
+              final dx = math.sin(t * math.pi * 10) * 10 * decay;
+              final dy = math.cos(t * math.pi * 8) * 6 * decay;
+              return Transform.translate(
+                offset: Offset(dx, dy),
+                child: child,
+              );
+            },
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    // Top player's half — rotated 180° so their score and
+                    // CUT button sit right-side up for someone facing the
+                    // phone from that end.
+                    Expanded(
+                      child: Transform.rotate(
+                        angle: math.pi,
+                        child: PlayerPanel(
+                          score: _controller.player1Score,
+                          color: const Color(0xFF17C4EE),
+                          onCut: () => _cut(1),
+                        ),
+                      ),
+                    ),
+                    _CenterStrip(
+                      onTapExit: () => Navigator.of(context).pop(),
+                      child: ArenaObjectView(controller: _controller),
+                    ),
+                    // Bottom player's half — normal orientation.
+                    Expanded(
                       child: PlayerPanel(
-                        label: '',
-                        score: _controller.player1Score,
-                        colors: const [
-                          Color(0xFF5080FF),
-                          Color(0xFF3060FF),
-                        ],
-                        onCut: () => _controller.cut(1),
+                        score: _controller.player2Score,
+                        color: const Color(0xFFFF5F57),
+                        onCut: () => _cut(2),
                       ),
                     ),
-                  ),
-                  _CenterStrip(
-                    onTapExit: () => Navigator.of(context).pop(),
-                    child: SpawnObjectView(object: _controller.currentObject),
-                  ),
-                  // Bottom player's half — normal orientation.
-                  Expanded(
-                    child: PlayerPanel(
-                      label: '',
-                      score: _controller.player2Score,
-                      colors: const [Color(0xFFFF5E5E), Color(0xFFFF4444)],
-                      onCut: () => _controller.cut(2),
-                    ),
-                  ),
-                ],
-              ),
-              // Countdown overlay
-              if (_controller.countdown != null)
-                Container(
-                  color: Colors.black54,
-                  child: Center(
-                    child: Text(
-                      _controller.countdown == 0
-                          ? 'GO!'
-                          : '${_controller.countdown}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 120,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-            ],
+                // Countdown overlay
+                if (_controller.countdown != null)
+                  Container(
+                    color: Colors.black54,
+                    child: Center(
+                      child: Text(
+                        _controller.countdown == 0
+                            ? 'GO!'
+                            : '${_controller.countdown}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 120,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -143,9 +189,8 @@ class _FruitDuelGameScreenState extends State<FruitDuelGameScreen> {
   }
 }
 
-/// The neutral strip between the two halves: two faint horizontal lines
-/// with the spawn object centered between them and a small circular exit
-/// button tucked to the side — matches Math Duel's "no-man's-land" divider.
+/// The neutral strip between the two halves: the live/cut object centered
+/// between them, with a small circular exit button tucked to the side.
 class _CenterStrip extends StatelessWidget {
   final Widget child;
   final VoidCallback onTapExit;
@@ -154,45 +199,24 @@ class _CenterStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150,
+      height: 170,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Positioned(
-            top: 10,
-            child: Container(
-              width: 150,
-              height: 3,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.18),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 10,
-            child: Container(
-              width: 150,
-              height: 3,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.18),
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-          ),
           Center(child: child),
           Positioned(
             right: 20,
             child: GestureDetector(
               onTap: onTapExit,
               child: Container(
-                width: 40,
-                height: 40,
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.15),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black26, width: 1.5),
                 ),
-                child: const Icon(Icons.close, color: Colors.white70, size: 20),
+                child: const Icon(Icons.close, color: Colors.black54, size: 18),
               ),
             ),
           ),

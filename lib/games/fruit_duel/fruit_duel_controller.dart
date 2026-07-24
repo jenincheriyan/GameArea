@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../../models/game_object.dart';
 
 /// What just happened to the last object, used to drive feedback
-/// (flash colors, haptics, etc.) in the UI layer.
+/// (flash colors, haptics, sounds, etc.) in the UI layer.
 enum RoundResult {
   none,
   player1Fruit,
@@ -20,13 +20,23 @@ enum RoundResult {
 ///
 /// This is plain Dart (a [ChangeNotifier]) with no dependency on any
 /// specific widget, so it's easy to unit test or reuse for a different
-/// front end.
+/// front end. All animation/audio/particle concerns live in the widget
+/// layer — this class only owns game *state*.
+///
+/// Collision model: this is a reaction-race, not a spatial slice — each
+/// object is a single shared target and whichever player's CUT tap is
+/// processed first "wins" the object. That's enforced by [_objectResolved]:
+/// the first tap (or the expiry timer, if nobody taps) flips it to true,
+/// and every event after that for the same object is a no-op. This keeps
+/// the two players' near-simultaneous taps deterministic and fair without
+/// needing real hit-testing against a moving sprite.
 class FruitDuelController extends ChangeNotifier {
   static const int targetScore = 10;
   static const List<String> _fruitEmojis = [
     '🍎', '🍌', '🍇', '🍓', '🍍'
   ];
-  static const double _bombChance = 0.3;
+  // 75% fruit / 25% bomb, per design spec.
+  static const double _bombChance = 0.25;
 
   final Random _random = Random();
 
@@ -36,6 +46,15 @@ class FruitDuelController extends ChangeNotifier {
   int? winner; // 1, 2, or null while the match is in progress
   int? countdown;
   RoundResult lastResult = RoundResult.none;
+
+  // A copy of whatever object was just resolved by a cut (fruit or bomb),
+  // kept around so the UI can play a slice/explosion animation after
+  // [currentObject] itself has already gone back to null. [resultTick]
+  // increments on every resolved cut so the UI can reliably detect a new
+  // event even if the same object id/kind repeats.
+  GameObject? lastResolvedObject;
+  int? lastResolvedPlayer;
+  int resultTick = 0;
 
   // Guards against both players scoring off the same object: the first
   // cut (or the expiry timer, if nobody cuts) sets this to true, and any
@@ -53,6 +72,9 @@ class FruitDuelController extends ChangeNotifier {
     winner = null;
     currentObject = null;
     lastResult = RoundResult.none;
+    lastResolvedObject = null;
+    lastResolvedPlayer = null;
+    resultTick = 0;
     countdown = 3;
 
     _running = true;
@@ -79,7 +101,6 @@ class FruitDuelController extends ChangeNotifier {
     );
   }
 
-
   void stop() {
     _running = false;
     _spawnTimer?.cancel();
@@ -97,11 +118,16 @@ class FruitDuelController extends ChangeNotifier {
     if (!_disposed) notifyListeners();
   }
 
+  /// Objects wait 0.5–1s after the previous one resolves before the next
+  /// one spawns, per design spec.
+  Duration _randomSpawnDelay() =>
+      Duration(milliseconds: 500 + _random.nextInt(501));
+
   void _scheduleNextSpawn({Duration? initialDelay}) {
     _spawnTimer?.cancel();
 
     _spawnTimer = Timer(
-      initialDelay ?? const Duration(milliseconds: 450),
+      initialDelay ?? _randomSpawnDelay(),
       _spawnObject,
     );
   }
@@ -151,7 +177,8 @@ class FruitDuelController extends ChangeNotifier {
     _scheduleNextSpawn();
   }
 
-  /// Called when [player] (1 or 2) taps their sword / CUT button.
+  /// Called when [player] (1 or 2) taps their CUT button. The first call
+  /// for the current object wins it; anything after that is ignored.
   void cut(int player) {
     assert(player == 1 || player == 2);
     if (!_running || winner != null) return;
@@ -182,6 +209,9 @@ class FruitDuelController extends ChangeNotifier {
       }
     }
 
+    lastResolvedObject = obj;
+    lastResolvedPlayer = player;
+    resultTick++;
     currentObject = null;
 
     if (player1Score >= targetScore) {
@@ -193,7 +223,7 @@ class FruitDuelController extends ChangeNotifier {
     _safeNotify();
 
     if (winner == null) {
-      _scheduleNextSpawn(initialDelay: const Duration(milliseconds: 450));
+      _scheduleNextSpawn(initialDelay: _randomSpawnDelay());
     } else {
       stop();
     }
