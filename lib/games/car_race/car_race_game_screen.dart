@@ -37,14 +37,15 @@ class _CarRaceGameScreenState extends State<CarRaceGameScreen> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF232526), Color(0xFF414345)],
+            colors: [Color(0xFF000000), Color(0xFF000000)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
         child: SafeArea(
           child: !_controller.isReady
-              ? const Center(child: CircularProgressIndicator(color: Colors.white70))
+              ? const Center(child: CircularProgressIndicator(color: Color(
+              0xFF4FF657)))
               : Column(
                   children: [
                     Row(
@@ -73,7 +74,7 @@ class _CarRaceGameScreenState extends State<CarRaceGameScreen> {
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.white24),
+                            border: Border.all(color: const Color(0xFF4FF657)),
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
@@ -116,7 +117,7 @@ class _CarRaceGameScreenState extends State<CarRaceGameScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 78, vertical: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -141,14 +142,14 @@ class _LaneButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTapDown: (_) => onTap(),
       child: Container(
         width: 72,
         height: 56,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.12),
+          color: const Color(0xFF5C5C5C),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white24),
+          border: Border.all(color: const Color(0xFF96B5FF)),
         ),
         child: Icon(icon, color: Colors.white, size: 24),
       ),
