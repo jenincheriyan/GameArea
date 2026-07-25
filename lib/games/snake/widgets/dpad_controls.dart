@@ -88,7 +88,7 @@ class _DpadButton extends StatelessWidget {
         elevation: 4,
         child: InkWell(
           customBorder: const CircleBorder(),
-          onTap: onTap,
+          onTapDown: (_) => onTap(),
           splashColor: DpadControls.accentColor.withOpacity(0.4),
           child: SizedBox(
             width: 56,
@@ -121,7 +121,7 @@ class _CenterButton extends StatelessWidget {
       elevation: 5,
       child: InkWell(
         customBorder: const CircleBorder(),
-        onTap: onTap,
+        onTapDown: (_) => onTap(),
         child: SizedBox(
           width: 52,
           height: 52,

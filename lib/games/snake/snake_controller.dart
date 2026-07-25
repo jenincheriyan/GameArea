@@ -153,7 +153,7 @@ class SnakeController extends ChangeNotifier {
         _persistHiScore();
       }
       _spawnFood();
-      _speedUp();
+      // _speedUp();
     } else {
       snake = snake.sublist(0, snake.length - 1);
     }
